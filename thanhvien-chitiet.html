@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chi tiết thành viên</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Giới thiệu thành viên</h1>
+</header>
+
+<nav>
+    <a href="index.html">Trang chủ</a>
+    <a href="thanhvien.html">Thành viên</a>
+</nav>
+
+<div class="container">
+    <div class="card" style="text-align:center">
+        <img id="anh" src="" style="width:200px">
+        <h2 id="ten"></h2>
+        <p id="sothich"></p>
+        <p id="tinhcach"></p>
+        <p id="kyniem"></p>
+    </div>
+</div>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const ten = params.get("ten");
+    const anh = params.get("anh");
+
+    document.getElementById("ten").innerText = ten;
+    document.getElementById("anh").src = anh;
+
+    // Dữ liệu 44 người (ví dụ vài người, bạn thêm tiếp)
+    const data = {
+        "Sơn Hiếu Quý An": {
+            sothich: "Đá bóng",
+            tinhcach: "Vui vẻ",
+            kyniem: "Hay ngủ trong lớp 😆"
+        },
+        "Huỳnh Phương Anh": {
+            sothich: "Nghe nhạc",
+            tinhcach: "Hiền",
+            kyniem: "Hay cười"
+        },
+        "Nguyễn Thị Vân Anh": {
+            sothich: "Nghe nhạc",
+            tinhcach: "Hiền",
+            kyniem: "Hay cười"
+        },
+        "Nguyễn Hoàng Bảo": {
+            sothich: "Nghe nhạc",
+            tinhcach: "Hiền",
+            kyniem: "Hay cười"
+        },
+         "Thạch Thái Ma Ny Châu": {
+            sothich: "Nghe nhạc",
+            tinhcach: "Hiền",
+            kyniem: "Hay cười"
+        },
+         "nguyễn Thị Tuyết Chi": {
+            sothich: "Nghe nhạc",
+            tinhcach: "Hiền",
+            kyniem: "Hay cười"
+        },
+               "Nguyễn Thành Đạt": {
+            sothich: "Nghe nhạc",
+            tinhcach: "Hiền",
+            kyniem: "Hay cười"
+        },
+               "Thạch Công Định": {
+            sothich: "Nghe nhạc",
+            tinhcach: "Hiền",
+            kyniem: "Hay cười"
+        },
+               "Thạch Thị Ngọc Giàu": {
+            sothich: "Nghe nhạc",
+            tinhcach: "Hiền",
+            kyniem: "Hay cười"
+        },
+               "Thạch Văn Nhựt Hậu": {
+            sothich: "Nghe nhạc",
+            tinhcach: "Hiền",
+            kyniem: "Hay cười"
+        },
+               "Nguyễn Phúc Hậu": {
+            sothich: "Nghe nhạc",
+            tinhcach: "Hiền",
+            kyniem: "Hay cười"
+        },
+               "Kim Hoàng Huy": {
+            sothich: "Nghe nhạc",
+            tinhcach: "Hiền",
+            kyniem: "Hay cười"
+        },
+               "Trần Quốc Huy": {
+            sothich: "Nghe nhạc",
+            tinhcach: "Hiền",
+            kyniem: "Hay cười"
+        },
+               "Đặng Lâm Hoàng Kha": {
+            sothich: "Nghe nhạc",
+            tinhcach: "Hiền",
+            kyniem: "Hay cười"
+        },
+          "Lý Thanh Liền": {
+            sothich: "Nghe nhạc",
+            tinhcach: "Hiền",
+            kyniem: "Hay cười"
+        },
+          "Thái Quang Minh": {
+            sothich: "Nghe nhạc",
+            tinhcach: "Hiền",
+            kyniem: "Hay cười"
+        },
+          "Huỳnh Phương Anh": {
+            sothich: "Nghe nhạc",
+            tinhcach: "Hiền",
+            kyniem: "Hay cười"
+        },
+          "Huỳnh Phương Anh": {
+            sothich: "Nghe nhạc",
+            tinhcach: "Hiền",
+            kyniem: "Hay cười"
+        },
+          "Huỳnh Phương Anh": {
+            sothich: "Nghe nhạc",
+            tinhcach: "Hiền",
+            kyniem: "Hay cười"
+        },
+          "Huỳnh Phương Anh": {
+            sothich: "Nghe nhạc",
+            tinhcach: "Hiền",
+            kyniem: "Hay cười"
+        },
+          "Huỳnh Phương Anh": {
+            sothich: "Nghe nhạc",
+            tinhcach: "Hiền",
+            kyniem: "Hay cười"
+        },
+          "Huỳnh Phương Anh": {
+            sothich: "Nghe nhạc",
+            tinhcach: "Hiền",
+            kyniem: "Hay cười"
+        },
+          "Huỳnh Phương Anh": {
+            sothich: "Nghe nhạc",
+            tinhcach: "Hiền",
+            kyniem: "Hay cười"
+        },
+}
+    if (data[ten]) {
+        document.getElementById("sothich").innerText = "Sở thích: " + data[ten].sothich;
+        document.getElementById("tinhcach").innerText = "Tính cách: " + data[ten].tinhcach;
+        document.getElementById("kyniem").innerText = "Kỷ niệm: " + data[ten].kyniem;
+    }
+</script>
+
+</body>
+</html>
