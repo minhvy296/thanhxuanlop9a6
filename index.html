@@ -31,12 +31,12 @@
     </div>
 </div>
 </body>
-<iframe src="music-player.html" id="musicFrame" style="display:none;"></iframe>
+<iframe src="music-player.html" style="display:none;" id="musicFrame"></iframe>
 </script>
 <div>
 </script>
 </html>
-<button onclick="playPause()" style="position:fixed;bottom:20px;right:20px;">
+<button onclick="toggleNhac()" style="position:fixed;bottom:20px;right:20px;">
 🎵
 </button>
 
@@ -46,9 +46,9 @@ function getAudio() {
         .contentWindow.document.getElementById("audio");
 }
 
-function playPause() {
-    let a = getAudio();
-    if (a.paused) a.play();
-    else a.pause();
+function toggleNhac() {
+    let audio = getAudio();
+    if (audio.paused) audio.play();
+    else audio.pause();
 }
 </script>

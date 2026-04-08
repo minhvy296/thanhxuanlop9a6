@@ -2,13 +2,13 @@
 <html>
 <body style="margin:0">
 
-<audio id="audio"></audio>
+<audio id="audio" autoplay loop></audio>
 
 <script>
 const playlist = [
-    {name: "Thức giấc", src: "thức giấc.mp3"},
-    {name: "chill", src: "chill.mp3"},
-    {name: "rực rỡ tháng 5", src: "rực rỡ tháng 5.mp3"}
+    {name: "Thanh Xuân", src: "music/nhac1.mp3"},
+    {name: "Kỷ Niệm", src: "music/nhac2.mp3"},
+    {name: "Tạm Biệt", src: "music/nhac3.mp3"}
 ];
 
 let audio = document.getElementById("audio");
@@ -20,7 +20,7 @@ let time = parseFloat(localStorage.getItem("time")) || 0;
 // Load bài
 function loadSong(i) {
     audio.src = playlist[i].src;
-    audio.currentTime = time;
+    audio.currentTime = time || 0;
 }
 
 // Lưu trạng thái
@@ -30,33 +30,35 @@ function save() {
 }
 
 // Chuyển bài
-function next() {
-    index++;
-    if (index >= playlist.length) index = 0;
-    time = 0;
+function nextSong() {
+    index = (index + 1) % playlist.length;
+    localStorage.setItem("songIndex", index);
+    localStorage.setItem("time", 0);
     loadSong(index);
-    audio.play();
+    playMusic();
 }
 
 // Khi hết bài → tự chuyển
-audio.addEventListener("ended", next);
+audio.addEventListener("ended", nextSong);
 
 // Lưu liên tục
 audio.addEventListener("timeupdate", save);
 
-// Load bài đầu
-loadSong(index);
-
-// 🔥 AUTO PLAY CHUẨN NHẤT
+// Phát nhạc (auto chuẩn)
 function playMusic() {
     audio.play().catch(() => {});
 }
 
+// Load bài đầu
+loadSong(index);
+
+// 🔥 AUTO PLAY NGAY KHI VÀO WEB
 window.addEventListener("load", () => {
     playMusic();
 
-    document.body.addEventListener("click", playMusic, {once:true});
-    document.body.addEventListener("mousemove", playMusic, {once:true});
+    // nếu bị chặn → chỉ cần rê chuột là chạy
+    document.addEventListener("mousemove", playMusic, {once:true});
+    document.addEventListener("click", playMusic, {once:true});
 });
 </script>
 
