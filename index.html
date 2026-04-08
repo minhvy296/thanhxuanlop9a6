@@ -30,79 +30,65 @@
         <img id="anh" src="gen-h-z7693387628284_9e885ead374c11f2a4168015ca83661c.jpg">
     </div>
 </div>
-<!-- 🎵 PLAYER -->
-<div id="musicPlayer">
-    <button onclick="togglePlay()">⏯</button>
-    <button onclick="nextSong()">⏭</button>
-    <span id="songName">Đang phát...</span>
-</div>
-
-<audio id="audio"></audio>
-
-<style>
-    </style>
-
-<script>
-const playlist = [
-    {name: "Thức Giấc", src: "thức giấc.mp3"},
-    {name: "Kỷ Niệm", src: "chill.mp3"},
-    {name: "rực rỡ tháng 5", src: "rực rỡ tháng 5.mp3"}
-];
-
-let audio = document.getElementById("audio");
-let index = localStorage.getItem("songIndex") || 0;
-
-function loadSong(i) {
-    audio.src = playlist[i].src;
-    document.getElementById("songName").innerText = playlist[i].name;
-    localStorage.setItem("songIndex", i);
-}
-
-function fadeIn() {
-    audio.volume = 0;
-    let v = 0;
-    let fade = setInterval(() => {
-        if (v < 0.5) {
-            v += 0.05;
-            audio.volume = v;
-        } else {
-            clearInterval(fade);
-        }
-    }, 200);
-}
-
-function playMusic() {
-    audio.play().then(() => fadeIn()).catch(() => {});
-}
-
-function togglePlay() {
-    if (audio.paused) playMusic();
-    else audio.pause();
-}
-
-function nextSong() {
-    index++;
-    if (index >= playlist.length) index = 0;
-    loadSong(index);
-    playMusic();
-}
-
-// Auto chuyển bài
-audio.addEventListener("ended", nextSong);
-
-// Load bài đầu
-loadSong(index);
-
-// Smart autoplay
-window.addEventListener("load", () => {
-    playMusic();
-
-    document.body.addEventListener("mousemove", playMusic, {once:true});
-    document.body.addEventListener("click", playMusic, {once:true});
-});
-</script>
 </body>
+<iframe src="music-player.html" id="musicFrame"></iframe>
 </script>
 <div>
 </script>
 </html>
+<div id="playerUI">
+    <button onclick="playPause()">⏯</button>
+    <button onclick="nextSong()">⏭</button>
+    <input type="range" id="seekBar" value="0">
+</div>
+
+<style>
+#playerUI {
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    background: #ff9aa2;
+    padding: 10px;
+    border-radius: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+#playerUI button {
+    border: none;
+    border-radius: 50%;
+    padding: 5px 10px;
+}
+</style>
+
+<script>
+function getAudio() {
+    return document.getElementById("musicFrame")
+        .contentWindow.document.getElementById("audio");
+}
+
+function playPause() {
+    let a = getAudio();
+    if (a.paused) a.play();
+    else a.pause();
+}
+
+function nextSong() {
+    let frame = document.getElementById("musicFrame").contentWindow;
+    frame.index = (parseInt(frame.index) + 1) % frame.playlist.length;
+    frame.loadSong(frame.index);
+    frame.audio.play();
+}
+
+// thanh tua
+setInterval(() => {
+    let a = getAudio();
+    let bar = document.getElementById("seekBar");
+    bar.max = a.duration || 0;
+    bar.value = a.currentTime || 0;
+}, 500);
+
+document.getElementById("seekBar").addEventListener("input", function () {
+    getAudio().currentTime = this.value;
+});
+</script>

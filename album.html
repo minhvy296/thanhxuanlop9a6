@@ -43,4 +43,61 @@
 </div>
 
 </body>
+<iframe src="music-player.html" id="musicFrame"></iframe>
 </html>
+<div id="playerUI">
+    <button onclick="playPause()">⏯</button>
+    <button onclick="nextSong()">⏭</button>
+    <input type="range" id="seekBar" value="0">
+</div>
+
+<style>
+#playerUI {
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    background: #ff9aa2;
+    padding: 10px;
+    border-radius: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+#playerUI button {
+    border: none;
+    border-radius: 50%;
+    padding: 5px 10px;
+}
+</style>
+
+<script>
+function getAudio() {
+    return document.getElementById("musicFrame")
+        .contentWindow.document.getElementById("audio");
+}
+
+function playPause() {
+    let a = getAudio();
+    if (a.paused) a.play();
+    else a.pause();
+}
+
+function nextSong() {
+    let frame = document.getElementById("musicFrame").contentWindow;
+    frame.index = (parseInt(frame.index) + 1) % frame.playlist.length;
+    frame.loadSong(frame.index);
+    frame.audio.play();
+}
+
+// thanh tua
+setInterval(() => {
+    let a = getAudio();
+    let bar = document.getElementById("seekBar");
+    bar.max = a.duration || 0;
+    bar.value = a.currentTime || 0;
+}, 500);
+
+document.getElementById("seekBar").addEventListener("input", function () {
+    getAudio().currentTime = this.value;
+});
+</script>

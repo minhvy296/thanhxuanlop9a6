@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<body style="margin:0;background:transparent">
+
+<audio id="audio"></audio>
+
+<script>
+const playlist = [
+    {name: "Thức Giấc", src: "thức giấc.mp3"},
+    {name: "chill", src: "chill.mp3"},
+    {name: "Rực Rỡ Tháng 5", src: "rực rỡ tháng 5.mp3"}
+];
+
+let audio = document.getElementById("audio");
+let index = localStorage.getItem("songIndex") || 0;
+let time = localStorage.getItem("time") || 0;
+
+function loadSong(i) {
+    audio.src = playlist[i].src;
+    audio.currentTime = time;
+}
+
+function save() {
+    localStorage.setItem("songIndex", index);
+    localStorage.setItem("time", audio.currentTime);
+}
+
+function next() {
+    index = (parseInt(index) + 1) % playlist.length;
+    loadSong(index);
+    audio.play();
+}
+
+audio.addEventListener("timeupdate", save);
+audio.addEventListener("ended", next);
+
+loadSong(index);
+
+// autoplay thông minh
+window.addEventListener("load", () => {
+    audio.play().catch(() => {
+        document.body.addEventListener("click", () => audio.play(), {once:true});
+    });
+});
+</script>
+
+</body>
+</html>
