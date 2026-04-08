@@ -1,46 +1,62 @@
 <!DOCTYPE html>
 <html>
-<body style="margin:0;background:transparent">
+<body style="margin:0">
 
 <audio id="audio"></audio>
 
 <script>
 const playlist = [
-    {name: "Thức Giấc", src: "thức giấc.mp3"},
-    {name: "chill", src: "chill.mp3"},
-    {name: "Rực Rỡ Tháng 5", src: "rực rỡ tháng 5.mp3"}
+    {name: "Thanh Xuân", src: "music/nhac1.mp3"},
+    {name: "Kỷ Niệm", src: "music/nhac2.mp3"},
+    {name: "Tạm Biệt", src: "music/nhac3.mp3"}
 ];
 
 let audio = document.getElementById("audio");
-let index = localStorage.getItem("songIndex") || 0;
-let time = localStorage.getItem("time") || 0;
 
+// Lấy dữ liệu đã lưu
+let index = parseInt(localStorage.getItem("songIndex")) || 0;
+let time = parseFloat(localStorage.getItem("time")) || 0;
+
+// Load bài
 function loadSong(i) {
     audio.src = playlist[i].src;
     audio.currentTime = time;
 }
 
+// Lưu trạng thái
 function save() {
     localStorage.setItem("songIndex", index);
     localStorage.setItem("time", audio.currentTime);
 }
 
+// Chuyển bài
 function next() {
-    index = (parseInt(index) + 1) % playlist.length;
+    index++;
+    if (index >= playlist.length) index = 0;
+    time = 0;
     loadSong(index);
     audio.play();
 }
 
-audio.addEventListener("timeupdate", save);
+// Khi hết bài → tự chuyển
 audio.addEventListener("ended", next);
 
+// Lưu liên tục
+audio.addEventListener("timeupdate", save);
+
+// Load bài đầu
 loadSong(index);
 
-// autoplay thông minh
+// 🔥 AUTO PLAY CHUẨN NHẤT
+function playMusic() {
+    audio.play().catch(() => {});
+}
+
 window.addEventListener("load", () => {
-    audio.play().catch(() => {
-        document.body.addEventListener("click", () => audio.play(), {once:true});
-    });
+    playMusic();
+
+    document.body.addEventListener("click", playMusic, {once:true});
+    document.body.addEventListener("mousemove", playMusic, {once:true});
 });
 </script>
 
