@@ -30,28 +30,78 @@
         <img id="anh" src="gen-h-z7693387628284_9e885ead374c11f2a4168015ca83661c.jpg">
     </div>
 </div>
+<!-- 🎵 PLAYER -->
+<div id="musicPlayer">
+    <button onclick="togglePlay()">⏯</button>
+    <button onclick="nextSong()">⏭</button>
+    <span id="songName">Đang phát...</span>
+</div>
 
-</body>
-<audio id="nhacNen" loop>
-    <source src="Phép Màu (From Đàn Cá Gỗ Original Soundtrack).mp3" type="audio/mpeg">
-</audio>
+<audio id="audio"></audio>
+
+<style>
+    </style>
 
 <script>
-window.addEventListener("load", function () {
-    let audio = document.getElementById("nhacNen");
+const playlist = [
+    {name: "Thức Giấc", src: "thức giấc.mp3"},
+    {name: "Kỷ Niệm", src: "chill.mp3"},
+    {name: "rực rỡ tháng 5", src: "rực rỡ tháng 5.mp3"}
+];
 
-    // thử phát luôn
-    audio.play().catch(() => {
-        // nếu bị chặn → tự bật khi có tương tác nhẹ
-        document.body.addEventListener("mousemove", () => {
-            audio.play();
-        }, { once: true });
+let audio = document.getElementById("audio");
+let index = localStorage.getItem("songIndex") || 0;
 
-        document.body.addEventListener("click", () => {
-            audio.play();
-        }, { once: true });
-    });
+function loadSong(i) {
+    audio.src = playlist[i].src;
+    document.getElementById("songName").innerText = playlist[i].name;
+    localStorage.setItem("songIndex", i);
+}
+
+function fadeIn() {
+    audio.volume = 0;
+    let v = 0;
+    let fade = setInterval(() => {
+        if (v < 0.5) {
+            v += 0.05;
+            audio.volume = v;
+        } else {
+            clearInterval(fade);
+        }
+    }, 200);
+}
+
+function playMusic() {
+    audio.play().then(() => fadeIn()).catch(() => {});
+}
+
+function togglePlay() {
+    if (audio.paused) playMusic();
+    else audio.pause();
+}
+
+function nextSong() {
+    index++;
+    if (index >= playlist.length) index = 0;
+    loadSong(index);
+    playMusic();
+}
+
+// Auto chuyển bài
+audio.addEventListener("ended", nextSong);
+
+// Load bài đầu
+loadSong(index);
+
+// Smart autoplay
+window.addEventListener("load", () => {
+    playMusic();
+
+    document.body.addEventListener("mousemove", playMusic, {once:true});
+    document.body.addEventListener("click", playMusic, {once:true});
 });
+</script>
+</body>
 </script>
 <div>
 </script>
