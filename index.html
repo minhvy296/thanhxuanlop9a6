@@ -31,7 +31,30 @@
     </div>
 </div>
 </body>
-<iframe src="music-player.html" id="musicFrame"></iframe>
+<audio id="nhacNen" autoplay loop muted>
+    <iframe src="music-player.html" id="musicFrame"></iframe>
+</audio>
+
+<script>
+let audio = document.getElementById("nhacNen");
+
+// phát ngay khi load (mute)
+window.addEventListener("load", () => {
+    audio.play();
+});
+
+// tự bật tiếng ngay lập tức khi có tương tác nhẹ
+function batNhac() {
+    audio.muted = false;
+    audio.volume = 0.5;
+    audio.play();
+}
+
+// bắt mọi kiểu tương tác (gần như auto 100%)
+["click", "mousemove", "touchstart", "scroll"].forEach(event => {
+    document.addEventListener(event, batNhac, { once: true });
+});
+</script>
 </script>
 <div>
 </script>
