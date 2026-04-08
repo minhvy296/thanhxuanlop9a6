@@ -47,6 +47,7 @@ audio.addEventListener("timeupdate", save);
 // Phát nhạc (auto chuẩn)
 function playMusic() {
     audio.play().catch(() => {});
+    random.phay = true;
 }
 
 // Load bài đầu
